@@ -16,17 +16,46 @@
         </div>
   
         <div class="py-4" />
-  
         <v-row>
+            <v-col cols="12">
+                <v-sheet class="mx-auto" width="300">
+                    <v-card>
+                        <v-tabs
+                            grow
+                            v-model="tab"
+                            bg-color="dark"
+                            >
+                            <v-tab value="login">Login</v-tab>
+                            <v-tab value="register">Register</v-tab>
+                        </v-tabs>
+                    </v-card>
+                </v-sheet>
+            </v-col>
           <v-col cols="12">
-            <LoginComponent/>
+            <v-card-text>
+                <v-tabs-window v-model="tab">
+                    <v-tabs-window-item value="login">
+                        <LoginComponent/>
+                    </v-tabs-window-item>
+                    <v-tabs-window-item value="register">
+                        <RegisterComponent/>
+                    </v-tabs-window-item>
+                </v-tabs-window>
+            </v-card-text>
           </v-col>
         </v-row>
       </v-responsive>
     </v-container>
   </template>
   
-  <script setup lang="ts">
+  <script>
     import LoginComponent from '@/components/auth/LoginComponent.vue'
+    import RegisterComponent from '@/components/auth/RegisterComponent.vue'
+    
+    export default {
+    data: () => ({
+      tab: 'login',
+    }),
+  }
   </script>
   
