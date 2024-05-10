@@ -10,6 +10,7 @@
           v-model="password"
           :rules="passwordRules"
           label="Password"
+          type="password"
         ></v-text-field>
         <v-btn
             :loading="loading"
@@ -25,9 +26,10 @@
       >
         <v-card
           max-width="400"
-          prepend-icon="mdi-error"
-          text="Your application will relaunch automatically after the update is complete."
-          title="Update in progress"
+          prepend-icon="mdi-account-off"
+          text="Invalid credentials"
+          title="Login failed"
+          color="red-lighten-4"
         >
           <template v-slot:actions>
             <v-btn
@@ -38,23 +40,19 @@
           </template>
       </v-card>
     </v-dialog>
-
-      <!-- <v-alert
-        v-if="alert"
-        closable
-        vmodel="alert"
-        text="Invalid credentials"
-        type="error"
-        ></v-alert> -->
     </v-sheet>
 </template>
-<script>
-  import axios from 'axios'
+<script lang="ts">
+  import axios from 'axios';
+  import { defineComponent } from 'vue';
+  import { userStore } from '../../stores/auth/userStore';
+  import { mapActions } from 'pinia';
 
-  export default {
+  export default defineComponent({
     data: () => ({
         dialog: false,
         loading: false,
+        alertText: '',
         email: '',
         password: '',
         emailRules: [
@@ -66,28 +64,35 @@
         ],
     }),
     methods: {
-        async login (event) {
-          const {valid, errors} = await this.$refs.form.validate();
+      ...mapActions(userStore, [
+                'storeLoggedInUser',
+      ]),
+      async login () {
+        const _this = this;
+        const {valid} = await this.$refs.form.validate();
+        if (!valid) {
+          return
+        }
 
-          if (!valid) {
-            return
-          }
+        this.loading = true
+        
+        await axios.post(import.meta.env.VITE_API_URL + '/users/login', {
+          email: this.email,
+          password: this.password
+        })
+        .then(function (response) {
+          _this.storeLoggedInUser(
+            response.data.data.access_token,
+            response.data.data.user
+          );
+          _this.$router.push({ name: 'dashboard' });
+        })
+        .catch(function (error) {
+          _this.dialog = true;
+        });
 
-          this.loading = true
-          
-          await axios.post('http://localhost:8000/api/v1/users/login', {
-            email: this.email,
-            password: this.password
-          })
-          .then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-
-          this.loading = false
+        this.loading = false
       },
     }
-  }
+  })
 </script>
