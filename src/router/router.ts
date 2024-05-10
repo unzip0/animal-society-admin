@@ -6,24 +6,24 @@ import { userStore } from '@/stores/auth/userStore';
 const routes = [
     {
         path: '/',
-        name: 'home',
+        name: 'Home',
         component: HomePage,
         beforeEnter: (to, from, next) => {
             const useUserStore = userStore();
             if (useUserStore.userIsAuth) {
-                return next({ name: 'dashboard' });
+                return next({ name: 'Dashboard' });
             }
             return next();
         },
     },
     {
         path: '/dashboard',
-        name: 'dashboard',
+        name: 'Dashboard',
         component: DashboardPage,
         beforeEnter: (to, from, next) => {
             const useUserStore = userStore();
             if (!useUserStore.userIsAuth) {
-                return next({ name: 'home' });
+                return next({ name: 'Home' });
             }
             return next();
         },

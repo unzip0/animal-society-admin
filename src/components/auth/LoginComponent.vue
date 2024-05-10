@@ -85,7 +85,7 @@
             response.data.data.access_token,
             response.data.data.user
           );
-          _this.$router.push({ name: 'dashboard' });
+          _this.$router.push({ name: 'Dashboard' });
         })
         .catch(function (error) {
           _this.dialog = true;
