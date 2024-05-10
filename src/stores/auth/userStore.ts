@@ -31,6 +31,15 @@ export const userStore = defineStore("user", {
 
             _this.storedToken = stringifiedToken;
             _this.storedUser = stringifiedUser;
+        },
+        logout() {
+            const _this = this;
+        
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+        
+            _this.storedToken = null;
+            _this.storedUser = null;
         }
     }
 });
