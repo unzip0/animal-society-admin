@@ -1,11 +1,11 @@
 <template>
   <v-app>
     <v-main>
-      <HomePage />
+      <RouterView/>
     </v-main>
   </v-app>
 </template>
 
 <script setup lang="ts">
-  import HomePage from '@/pages/HomePage.vue'
+import { RouterView } from 'vue-router';
 </script>
