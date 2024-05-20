@@ -1,8 +1,6 @@
 <template>
-    <Drawer />
-    <Bar />
-  </template>
-  
-  <script lang="ts" setup>
-    //
-  </script>
+</template>
+
+<script lang="ts" setup>
+  //
+</script>

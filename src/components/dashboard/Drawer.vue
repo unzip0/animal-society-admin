@@ -20,7 +20,13 @@
 
   <v-list color="transparent">
     <v-list-item prepend-icon="mdi-view-dashboard" title="Dashboard"></v-list-item>
-    <v-list-item prepend-icon="mdi-account-box" title="Account"></v-list-item>
+    <v-list-item 
+      prepend-icon="mdi-account-box" 
+      title="Account"
+      :to="{ name: 'Profile' }"
+      link
+      >
+    </v-list-item>
     <v-list-item prepend-icon="mdi-gavel" title="Admin"></v-list-item>
   </v-list>
 
@@ -55,7 +61,7 @@
             }
         }).then(function (response) {
           _this.logout();
-          _this.$router.push({name: 'Home'});
+          _this.$router.push({name: 'Authentication'});
         })
         .catch(function (error) {
           console.log(error);
