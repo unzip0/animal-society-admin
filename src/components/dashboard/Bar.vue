@@ -20,7 +20,7 @@
         class="ml-2"
         min-width="0"
         text
-        to="/dashboard"
+        :to="{ name: 'Dashboard' }"
       >
         <v-icon>mdi-view-dashboard</v-icon>
       </v-btn>
@@ -28,7 +28,7 @@
         class="ml-2"
         min-width="0"
         text
-        to="/"
+        :to="{ name: 'Profile' }"
       >
         <v-icon>mdi-account</v-icon>
       </v-btn>
