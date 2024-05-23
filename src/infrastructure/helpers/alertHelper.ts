@@ -7,7 +7,5 @@ export const showAlert = (
   color: string
 ) => {
   const alertStore = useAlertStore();
-  console.log('Opening alert with:', { title, message, icon, color });
   alertStore.openAlert(title, message, icon, color);
-  console.log('opened');
 };

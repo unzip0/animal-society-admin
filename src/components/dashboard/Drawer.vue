@@ -85,9 +85,7 @@
           _this.logout();
           _this.$router.push({name: 'Authentication'});
         })
-        .catch(function (error) {
-          console.log(error);
-        });
+        .catch(function (error) {});
 
         this.loading = false
       }

@@ -19,8 +19,6 @@ export const useAlertStore = defineStore('alert', () => {
         icon.value = alertIcon;
         color.value = alertColor;
         isVisible.value = true;
-        console.log('Alert state:', { isVisible: isVisible.value, title: title.value, message: message.value, color: color.value, icon: icon.value });
-
     };
 
     const closeAlert = () => {

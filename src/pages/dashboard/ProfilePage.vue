@@ -161,7 +161,6 @@
             );
           })
           .catch(function (error) {
-            console.log(error);
             showAlert(
               'Update failed',
               error.response.data.data.message,
