@@ -32,6 +32,18 @@ export const userStore = defineStore("user", {
             _this.storedToken = stringifiedToken;
             _this.storedUser = stringifiedUser;
         },
+        updateUserProperties(
+            userName: string,
+            firstLastName: string,
+            secondLastName: string
+        ) {
+            const user = JSON.parse(this.storedUser);
+            user.name = userName;
+            user.first_last_name = firstLastName;
+            user.second_last_name = secondLastName;
+            this.storedUser = JSON.stringify(user);
+            localStorage.setItem('user', this.storedUser);
+        },
         logout() {
             const _this = this;
         
