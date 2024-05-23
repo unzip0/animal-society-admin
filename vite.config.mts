@@ -30,6 +30,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
+      'infrastructure': fileURLToPath(new URL('./src/infrastructure', import.meta.url)),
+      'domain': fileURLToPath(new URL('./src/domain', import.meta.url)),
     },
     extensions: [
       '.js',

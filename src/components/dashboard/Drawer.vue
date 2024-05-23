@@ -19,14 +19,36 @@
   <v-divider class="mb-2" />
 
   <v-list color="transparent">
-    <v-list-item prepend-icon="mdi-view-dashboard" title="Dashboard"></v-list-item>
-    <v-list-item prepend-icon="mdi-account-box" title="Account"></v-list-item>
-    <v-list-item prepend-icon="mdi-gavel" title="Admin"></v-list-item>
+    <v-list-item 
+      prepend-icon="mdi-view-dashboard"
+      title="Dashboard"
+      :to="{ name: 'Dashboard' }"
+      color="teal-accent-3"
+    >
+    </v-list-item>
+    <v-list-item 
+      prepend-icon="mdi-account-box" 
+      title="Profile"
+      :to="{ name: 'Profile' }"
+      color="teal-accent-3"
+      >
+    </v-list-item>
+    <v-list-item
+      prepend-icon="mdi-gavel"
+      title="Admin"
+      color="teal-accent-3"
+    >
+    </v-list-item>
   </v-list>
-
     <template v-slot:append>
       <div class="pa-2">
-        <v-btn block @click="logoutUser">Logout</v-btn>
+        <v-btn 
+          :loading="loading"
+          block 
+          @click="logoutUser"
+          color="red-lighten-4"
+        >Logout
+      </v-btn>
       </div>
     </template>
   </v-navigation-drawer>
@@ -39,6 +61,11 @@
   import { mapState, mapActions } from 'pinia';
 
   export default defineComponent({
+    data() {
+      return {
+        loading: false,
+      }
+    },
     computed: {
       ...mapState(userStore, [
           'token',
@@ -49,17 +76,20 @@
       ...mapActions(userStore, ['logout']),
       async logoutUser() {
         const _this = this;
+        this.loading = true;
         axios.post(`${import.meta.env.VITE_API_URL}/users/logout`, {}, {
             headers: {
                 Authorization: `${_this.token.type} ${_this.token.token}`
             }
         }).then(function (response) {
           _this.logout();
-          _this.$router.push({name: 'Home'});
+          _this.$router.push({name: 'Authentication'});
         })
         .catch(function (error) {
           console.log(error);
         });
+
+        this.loading = false
       }
     }
   })
