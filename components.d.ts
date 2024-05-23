@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Alert: typeof import('./src/components/shared/Alert.vue')['default']
     AuthenticationPage: typeof import('./src/pages/AuthenticationPage.vue')['default']
     Bar: typeof import('./src/components/dashboard/Bar.vue')['default']
     Drawer: typeof import('./src/components/dashboard/Drawer.vue')['default']
