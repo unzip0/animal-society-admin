@@ -8,8 +8,8 @@
     "moduleResolution": "bundler",
     "paths": {
       "@/*": ["src/*"],
-      "infrastructure/*": ["src/infrastructure/*"],
-      "domain/*": ["src/domain/*"],
+      "infrastructure/*": ["src/core/shared/infrastructure/*"],
+      "domain/*": ["src/core/management/shared/domain/*"],
     },
     "resolveJsonModule": true,
     "types": [

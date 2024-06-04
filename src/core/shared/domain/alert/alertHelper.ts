@@ -1,4 +1,4 @@
-import { useAlertStore } from '../../stores/shared/alertStore';
+import { useAlertStore } from '@/stores/shared/alertStore';
 
 export const showAlert = (
   title: string,

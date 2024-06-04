@@ -8,6 +8,9 @@ const httpRoutes = {
   },
   users: {
     update: (id: string) => `${API_BASE_URL}/users/${id}`,
+  },
+  animals: {
+    getAssociationAnimals: `${API_BASE_URL}/animals/search/all`,
   }
 };
 
