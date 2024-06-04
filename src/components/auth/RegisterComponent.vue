@@ -1,6 +1,6 @@
 <template>
     <v-sheet class="mx-auto" width="300">
-      <v-form validate-on="submit lazy" @submit.prevent="register" ref="form">
+      <v-form validate-on="submit lazy" @submit.prevent="registerUser" ref="form">
         <v-text-field
           v-model="name"
           :rules="[required]"
@@ -26,6 +26,7 @@
           :rules=passwordRules
           label="Password"
           type="password"
+          auutocomplete="current-password"
         ></v-text-field>
         <v-btn
             :loading="loading"
@@ -58,9 +59,9 @@
       </v-dialog>
 </template>
 <script lang="ts">
-  import axios from 'axios'
-  import { v4 as uuidv4 } from 'uuid';
   import { defineComponent } from 'vue';
+  import { register } from 'infrastructure/axios/routes/HttpAuthRouting'
+  import { v4 as uuidv4 } from 'uuid';
 
   export default defineComponent({
       data() {
@@ -92,7 +93,7 @@
         required (v) {
           return !!v || 'Field is required'
         },
-        async register () {
+        async registerUser () {
           const _this = this;
           const {valid} = await this.$refs.form.validate();
           if (!valid) {
@@ -101,7 +102,7 @@
           
           this.loading = true
           
-          await axios.post(import.meta.env.VITE_API_URL + '/users/register', {
+          await register({
             id: this.id,
             name: this.name,
             first_last_name: this.firstLastName,

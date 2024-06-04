@@ -8,7 +8,7 @@
         md="8"
       >
         <v-card>
-          <v-form validate-on="submit lazy" @submit.prevent="updateUser" ref="form">
+          <v-form validate-on="submit lazy" @submit.prevent="updateUserSubmit" ref="form">
             <v-container class="py-0">
               <v-row>
                   <v-col
@@ -102,7 +102,6 @@
   import Alert from '@/components/shared/Alert.vue';
   import { userStore } from '@/stores/auth/userStore';
   import { useAlertStore } from '@/stores/shared/alertStore';
-  import axios from 'infrastructure/axios/axios';
   import { updateUser } from 'infrastructure/axios/routes/HttpUserRouting'
   import { showAlert } from 'infrastructure/helpers/alertHelper';
 
@@ -130,7 +129,7 @@
         required (v) {
           return !!v || 'Field is required'
         },
-        async updateUser () {
+        async updateUserSubmit () {
           const _this = this;
           
           const {valid} = await this.$refs.form.validate();

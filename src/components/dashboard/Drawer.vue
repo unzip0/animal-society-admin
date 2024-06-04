@@ -56,9 +56,9 @@
 
 <script lang="ts">
   import { defineComponent } from 'vue';
-  import axios from 'axios';
   import { userStore } from '../../stores/auth/userStore';
   import { mapState, mapActions } from 'pinia';
+  import { logout } from 'infrastructure/axios/routes/HttpAuthRouting'
 
   export default defineComponent({
     data() {
@@ -77,11 +77,7 @@
       async logoutUser() {
         const _this = this;
         this.loading = true;
-        axios.post(`${import.meta.env.VITE_API_URL}/users/logout`, {}, {
-            headers: {
-                Authorization: `${_this.token.type} ${_this.token.token}`
-            }
-        }).then(function (response) {
+        await logout().then(function (response) {
           _this.logout();
           _this.$router.push({name: 'Authentication'});
         })
