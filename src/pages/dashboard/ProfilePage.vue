@@ -103,7 +103,7 @@
   import { userStore } from '@/stores/auth/userStore';
   import { useAlertStore } from '@/stores/shared/alertStore';
   import { updateUser } from 'infrastructure/axios/routes/HttpUserRouting'
-  import { showAlert } from 'infrastructure/helpers/alertHelper';
+  import { showAlert } from 'domain/alert/alertHelper';
 
   export default defineComponent({
     components: {

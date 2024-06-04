@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { userStore } from '../../stores/auth/userStore';
-import router from '../../router/router';
+import { userStore } from '@/stores/auth/userStore';
+import router from '@/router/router';
 
 
 const axiosInstance = axios.create({
