@@ -1,16 +1,18 @@
 <template>
     <v-sheet class="mx-auto" width="300">
-      <v-form validate-on="submit lazy" @submit.prevent="login" ref="form">
+      <v-form validate-on="submit lazy" @submit.prevent="loginUser" ref="form">
         <v-text-field
           v-model="email"
           :rules="emailRules"
           label="Email"
+          autocomplete="email"
         ></v-text-field>
         <v-text-field
           v-model="password"
           :rules="passwordRules"
           label="Password"
           type="password"
+          autocomplete="current-password"
         ></v-text-field>
         <v-btn
             :loading="loading"
@@ -43,10 +45,10 @@
     </v-sheet>
 </template>
 <script lang="ts">
-  import axios from 'axios';
   import { defineComponent } from 'vue';
   import { userStore } from '../../stores/auth/userStore';
   import { mapActions } from 'pinia';
+  import { login } from 'infrastructure/axios/routes/HttpAuthRouting'
 
   export default defineComponent({
     data: () => ({
@@ -67,7 +69,7 @@
       ...mapActions(userStore, [
                 'storeLoggedInUser',
       ]),
-      async login () {
+      async loginUser () {
         const _this = this;
         const {valid} = await this.$refs.form.validate();
         if (!valid) {
@@ -76,7 +78,7 @@
 
         this.loading = true
         
-        await axios.post(import.meta.env.VITE_API_URL + '/users/login', {
+        await login({
           email: this.email,
           password: this.password
         })
