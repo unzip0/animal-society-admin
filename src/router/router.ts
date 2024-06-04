@@ -39,6 +39,18 @@ const routes = [
                 },
             },
             {
+                path: '/animals',
+                name: 'Animals',
+                component: () => import('@/pages/dashboard/AnimalPage.vue'),
+                beforeEnter: (to, from, next) => {
+                    const useUserStore = userStore();
+                    if (!useUserStore.userIsAuth) {
+                        return next({ name: 'Authentication' });
+                    }
+                    return next();
+                },
+            },
+            {
                 path: '/profile',
                 name: 'Profile',
                 component: () => import('@/pages/dashboard/ProfilePage.vue'),

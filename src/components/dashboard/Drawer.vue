@@ -24,21 +24,24 @@
       title="Dashboard"
       :to="{ name: 'Dashboard' }"
       color="teal-accent-3"
-    >
-    </v-list-item>
+    />
+    <v-list-item 
+      prepend-icon="mdi-cat"
+      title="Animals"
+      :to="{ name: 'Animals' }"
+      color="teal-accent-3"
+    />
     <v-list-item 
       prepend-icon="mdi-account-box" 
       title="Profile"
       :to="{ name: 'Profile' }"
       color="teal-accent-3"
-      >
-    </v-list-item>
+    />
     <v-list-item
       prepend-icon="mdi-gavel"
       title="Admin"
       color="teal-accent-3"
-    >
-    </v-list-item>
+    />
   </v-list>
     <template v-slot:append>
       <div class="pa-2">
@@ -56,9 +59,9 @@
 
 <script lang="ts">
   import { defineComponent } from 'vue';
-  import { userStore } from '../../stores/auth/userStore';
+  import { userStore } from '@/stores/auth/userStore';
   import { mapState, mapActions } from 'pinia';
-  import { logout } from 'infrastructure/axios/routes/HttpAuthRouting'
+  import { logout } from '@infrastructure/axios/routes/HttpAuthRouting'
 
   export default defineComponent({
     data() {
