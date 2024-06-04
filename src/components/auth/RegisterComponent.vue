@@ -60,7 +60,7 @@
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue';
-  import { register } from 'infrastructure/axios/routes/HttpAuthRouting'
+  import { register } from '@infrastructure/axios/routes/HttpAuthRouting'
   import { v4 as uuidv4 } from 'uuid';
 
   export default defineComponent({

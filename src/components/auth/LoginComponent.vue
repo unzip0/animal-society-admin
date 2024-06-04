@@ -48,7 +48,7 @@
   import { defineComponent } from 'vue';
   import { userStore } from '../../stores/auth/userStore';
   import { mapActions } from 'pinia';
-  import { login } from 'infrastructure/axios/routes/HttpAuthRouting'
+  import { login } from '@infrastructure/axios/routes/HttpAuthRouting'
 
   export default defineComponent({
     data: () => ({

@@ -102,8 +102,8 @@
   import Alert from '@/components/shared/Alert.vue';
   import { userStore } from '@/stores/auth/userStore';
   import { useAlertStore } from '@/stores/shared/alertStore';
-  import { updateUser } from 'infrastructure/axios/routes/HttpUserRouting'
-  import { showAlert } from 'domain/alert/alertHelper';
+  import { updateUser } from '@infrastructure/axios/routes/HttpUserRouting'
+  import { showAlert } from '@domain/alert/alertHelper';
 
   export default defineComponent({
     components: {
