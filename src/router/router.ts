@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { userStore } from '@/stores/auth/userStore';
+import { useAuthStore } from '@/stores/auth/authStore';
 
 const routes = [
     {
@@ -7,8 +7,8 @@ const routes = [
         name: 'Authentication',
         component: () => import('@/pages/AuthenticationPage.vue'),
         beforeEnter: (to, from, next) => {
-            const useUserStore = userStore();
-            if (useUserStore.userIsAuth) {
+            const authStore = useAuthStore();
+            if (authStore.authenticated) {
                 return next({ name: 'Home' });
             }
             return next();
@@ -19,8 +19,8 @@ const routes = [
         name: 'Home',
         component: () => import('@/pages/dashboard/HomePage.vue'),
         beforeEnter: (to, from, next) => {
-            const useUserStore = userStore();
-            if (!useUserStore.userIsAuth) {
+            const authStore = useAuthStore();
+            if (!authStore.authenticated) {
                 return next({ name: 'Authentication' });
             }
             return next();
@@ -31,8 +31,8 @@ const routes = [
                 name: 'Dashboard',
                 component: () => import('@/pages/dashboard/DashboardPage.vue'),
                 beforeEnter: (to, from, next) => {
-                    const useUserStore = userStore();
-                    if (!useUserStore.userIsAuth) {
+                    const authStore = useAuthStore();
+                    if (!authStore.authenticated) {
                         return next({ name: 'Authentication' });
                     }
                     return next();
@@ -43,8 +43,8 @@ const routes = [
                 name: 'Animals',
                 component: () => import('@/pages/dashboard/AnimalPage.vue'),
                 beforeEnter: (to, from, next) => {
-                    const useUserStore = userStore();
-                    if (!useUserStore.userIsAuth) {
+                    const authStore = useAuthStore();
+                    if (!authStore.authenticated) {
                         return next({ name: 'Authentication' });
                     }
                     return next();
@@ -55,8 +55,8 @@ const routes = [
                 name: 'Profile',
                 component: () => import('@/pages/dashboard/ProfilePage.vue'),
                 beforeEnter: (to, from, next) => {
-                    const useUserStore = userStore();
-                    if (!useUserStore.userIsAuth) {
+                    const authStore = useAuthStore();
+                    if (!authStore.authenticated) {
                         return next({ name: 'Authentication' });
                     }
                     return next();
