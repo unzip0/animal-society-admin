@@ -59,32 +59,29 @@
 
 <script lang="ts">
   import { defineComponent } from 'vue';
-  import { userStore } from '@/stores/auth/userStore';
-  import { mapState, mapActions } from 'pinia';
-  import { logout } from '@infrastructure/axios/routes/HttpAuthRouting'
+  import { useUserStore } from '../../stores/auth/userStore';
+  import { useAuthStore } from '../../stores/auth/authStore';
 
   export default defineComponent({
     data() {
       return {
         loading: false,
+        userStore: useUserStore(),
+        authStore: useAuthStore(),
       }
     },
-    computed: {
-      ...mapState(userStore, [
-          'token',
-          'userIsAuth'
-      ])
-    },
     methods: {
-      ...mapActions(userStore, ['logout']),
       async logoutUser() {
         const _this = this;
         this.loading = true;
-        await logout().then(function (response) {
-          _this.logout();
+        
+        await this.userStore.logout().then(function (response) {
+          _this.userStore.clearUser();
+          _this.authStore.clearToken();
           _this.$router.push({name: 'Authentication'});
-        })
-        .catch(function (error) {});
+        }).catch(function (error) { 
+          console.log(error);
+        });
 
         this.loading = false
       }
