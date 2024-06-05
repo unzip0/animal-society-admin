@@ -46,9 +46,8 @@
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue';
-  import { userStore } from '../../stores/auth/userStore';
-  import { mapActions } from 'pinia';
-  import { login } from '@infrastructure/axios/routes/HttpAuthRouting'
+  import { useAuthStore } from '../../stores/auth/authStore';
+  import { useUserStore } from '../../stores/auth/userStore';
 
   export default defineComponent({
     data: () => ({
@@ -64,32 +63,24 @@
         passwordRules: [
             (v) => !!v || 'Password is required',
         ],
+        userStore: useUserStore(),
+        authStore: useAuthStore(),
     }),
     methods: {
-      ...mapActions(userStore, [
-                'storeLoggedInUser',
-      ]),
       async loginUser () {
         const _this = this;
         const {valid} = await this.$refs.form.validate();
+        
         if (!valid) {
           return
         }
-
-        this.loading = true
         
-        await login({
-          email: this.email,
-          password: this.password
-        })
-        .then(function (response) {
-          _this.storeLoggedInUser(
-            response.data.data.access_token,
-            response.data.data.user
-          );
+        this.loading = true
+        await this.userStore.login(this.email, this.password).then(function (response) {
+          _this.userStore.storeUser(response.data.data.user);
+          _this.authStore.storeToken(response.data.data.access_token);
           _this.$router.push({ name: 'Home' });
-        })
-        .catch(function (error) {
+        }).catch(function () {
           _this.dialog = true;
         });
 
