@@ -60,7 +60,8 @@
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue';
-  import { register } from '@infrastructure/axios/routes/HttpAuthRouting'
+  import { useUserStore } from '../../stores/auth/userStore';
+  import { User } from '../../core/management/users/domain/User';
   import { v4 as uuidv4 } from 'uuid';
 
   export default defineComponent({
@@ -87,6 +88,7 @@
               (v) => !!v || 'Field is required',
               (v) => /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(v) || 'Password must be valid'
           ],
+          userStore: useUserStore(),
         }    
       },
       methods: {
@@ -100,33 +102,33 @@
             return
           }
           
+          const user : User = new User(
+            this.id,
+            null,
+            this.name,
+            this.firstLastName,
+            this.secondLastName,
+            this.email,
+            this.role,
+            true
+          );
+
           this.loading = true
-          
-          await register({
-            id: this.id,
-            name: this.name,
-            first_last_name: this.firstLastName,
-            second_last_name: this.secondLastName,
-            email: this.email,
-            password: this.password,
-            role: this.role
-          })
-          .then(function (response) {
+          await this.userStore.register(user, this.password).then(function () {
             _this.alertTitle = 'Registration success';
             _this.alertText = 'Congratz! You can login now and help to animal community!'
             _this.alertColor = 'teal-accent-3';
             _this.alertIcon = 'mdi-account-check';
             _this.dialog = true;
             _this.$refs.form.reset();
-          })
-          .catch(function (error) {
+          }).catch(function (error) {
+            console.log(error);
             _this.alertTitle = 'Registration failed';
             _this.alertText = error.response.data.data.message;
             _this.alertColor = 'red-lighten-4';
             _this.alertIcon = 'mdi-account-off';
             _this.dialog = true;
           });
-
           this.loading = false
         }
       }
