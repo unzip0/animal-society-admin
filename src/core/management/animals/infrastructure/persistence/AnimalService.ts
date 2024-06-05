@@ -1,5 +1,5 @@
-import { AnimalRepository } from "../../../domain/Animal/AnimalRepository";
-import { Animal } from "../../../domain/Animal/Animal";
+import { AnimalRepository } from "../../domain/AnimalRepository";
+import { Animal } from "../../domain/Animal";
 import { getAssociationAnimals } from '@infrastructure/axios/routes/HttpAnimalRouting'
 
 export class AnimalService implements AnimalRepository
