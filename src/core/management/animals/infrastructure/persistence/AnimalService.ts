@@ -7,7 +7,6 @@ export class AnimalService implements AnimalRepository
     async getAssociationAnimals(associationId: string): Promise<Animal[]> {
         return await getAssociationAnimals()
             .then(function (response) {
-                console.log(response.data.data);
                 return response.data.data;
             })
             .catch(function (error) {

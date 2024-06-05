@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { userStore } from '@/stores/auth/userStore';
+import { useAuthStore } from '@/stores/auth/authStore';
 import router from '@/router/router';
 
 
@@ -7,7 +7,7 @@ const axiosInstance = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}`,
 });
 
-const authStore = userStore();
+const authStore = useAuthStore();
 
 axiosInstance.interceptors.request.use((config) => {
   
@@ -26,7 +26,7 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     if (error.response && error.response.status === 401) {
-      authStore.logout();
+      authStore.clearAuthenticationState(true);
       router.push({ name: 'Authentication' });
     }
     return Promise.reject(error);

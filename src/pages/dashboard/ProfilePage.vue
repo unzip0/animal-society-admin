@@ -17,7 +17,7 @@
                   >
                   <v-text-field
                     label="Email Address"
-                    v-model="email"
+                    v-model="user.email"
                     disabled
                   />
                 </v-col>
@@ -27,7 +27,7 @@
                 >
                   <v-text-field
                     label="User Name"
-                    v-model="name"
+                    v-model="user.name"
                     :rules="[required]"
                   />
                 </v-col>
@@ -37,7 +37,7 @@
                 >
                   <v-text-field
                     label="First last name"
-                    v-model="firstLastName"
+                    v-model="user.first_last_name"
                     :rules="[required]"
                   />
                 </v-col>
@@ -48,7 +48,7 @@
                 >
                   <v-text-field
                     label="Second Last Name"
-                    v-model="secondLastName"
+                    v-model="user.second_last_name"
                     :rules="[required]"
                   />
                 </v-col>
@@ -62,7 +62,7 @@
                 <v-col cols="12">
                   <v-switch
                     disabled
-                    v-model="active"
+                    v-model="user.active"
                     label="User is active"
                     color="green"
                     />
@@ -100,77 +100,70 @@
 <script lang="ts">
   import { defineComponent } from 'vue';
   import Alert from '@/components/shared/Alert.vue';
-  import { userStore } from '@/stores/auth/userStore';
-  import { useAlertStore } from '@/stores/shared/alertStore';
-  import { updateUser } from '@infrastructure/axios/routes/HttpUserRouting'
-  import { showAlert } from '@domain/alert/alertHelper';
+  import { useUserStore } from '../../stores/auth/userStore';
+  import { useAlertStore } from '../../stores/shared/alertStore';
+  import { User } from '../../core/management/users/domain/User';
+  import { showAlert } from '../../core/shared/domain/alert/alertHelper';
 
   export default defineComponent({
     components: {
       Alert
     },
     data() {
-      const authStore = userStore();
-      const user = authStore.user;
+      const userStore = useUserStore();
+      const storedUser = userStore.user;
+      const user: User = new User(
+        storedUser.id,
+        storedUser.associationId,
+        storedUser.name,
+        storedUser.first_last_name,
+        storedUser.second_last_name,
+        storedUser.email,
+        storedUser.role,
+        storedUser.active,
+      );
 
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          firstLastName: user.first_last_name,
-          secondLastName: user.second_last_name,
-          active: user.active,
-          loading: false,
-          dialog: false,
-          alertStore: useAlertStore(),
-        }    
+      return {
+        user: user,
+        loading: false,
+        dialog: false,
+        alertStore: useAlertStore(),
+        userStore,
+      }    
+    },
+    methods: {
+      required (v) {
+        return !!v || 'Field is required'
       },
-      methods: {
-        required (v) {
-          return !!v || 'Field is required'
-        },
-        async updateUserSubmit () {
-          const _this = this;
-          
-          const {valid} = await this.$refs.form.validate();
-          if (!valid) {
-            return
-          }
+      async updateUserSubmit () {
+        const _this = this;
+        
+        const {valid} = await this.$refs.form.validate();
+        if (!valid) {
+          return
+        }
 
-          this.loading = true
-          
-          await updateUser(this.id, {
-            name: this.name,
-            first_last_name: this.firstLastName,
-            second_last_name: this.secondLastName,
-          })
-          .then(function (response) {
-            const authStore = userStore();
-            authStore.updateUserProperties(
-              _this.name,
-              _this.firstLastName,
-              _this.secondLastName
-            );
-
-            showAlert(
-              'Update success',
-              'User info have been updated',
-              'mdi-account-check',
-              'teal-accent-3',
-            );
-          })
-          .catch(function (error) {
+        this.loading = true;
+        await this.userStore.update(this.user).then(function () {
+          const userStore = useUserStore();
+          userStore.storeUser(_this.user);
+          showAlert(
+            'Update success',
+            'User info have been updated',
+            'mdi-account-check',
+            'teal-accent-3',
+          );
+        }).catch(function (error) {
             showAlert(
               'Update failed',
               error.response.data.data.message,
               'mdi-account-off',
               'red-lighten-4',
             );
-          });
-
-          this.loading = false
-        }
-      },
+        });
+        this.loading = false
+      }
+    },
   });
 </script>
   
