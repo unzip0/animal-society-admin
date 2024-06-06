@@ -24,8 +24,5 @@ export const useAuthStore = defineStore("auth", {
             localStorage.removeItem('token');
             this.storedToken = null;
         },
-        clearAuthenticationState(authenticated: boolean) {
-            this.authenticated = !authenticated;
-        }
     }
 });
