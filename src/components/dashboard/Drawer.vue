@@ -60,14 +60,13 @@
 <script lang="ts">
   import { defineComponent } from 'vue';
   import { useUserStore } from '../../stores/auth/userStore';
-  import { useAuthStore } from '../../stores/auth/authStore';
+  import { purge } from '../../core/shared/domain/utils/store';
 
   export default defineComponent({
     data() {
       return {
         loading: false,
         userStore: useUserStore(),
-        authStore: useAuthStore(),
       }
     },
     methods: {
@@ -76,8 +75,7 @@
         this.loading = true;
         
         await this.userStore.logout().then(function (response) {
-          _this.userStore.clearUser();
-          _this.authStore.clearToken();
+          purge();
           _this.$router.push({name: 'Authentication'});
         }).catch(function (error) { 
           console.log(error);

@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { useAuthStore } from '@/stores/auth/authStore';
-import router from '@/router/router';
+import { useAuthStore } from '../../../../stores/auth/authStore';
+import router from '../../../../router/router';
+import { purge } from '../../../../core/shared/domain/utils/store';
 
 
 const axiosInstance = axios.create({
@@ -10,7 +11,6 @@ const axiosInstance = axios.create({
 const authStore = useAuthStore();
 
 axiosInstance.interceptors.request.use((config) => {
-  
   if (authStore.token) {
     config.headers.Authorization = `${authStore.token.type} ${authStore.token.token}`;
   }
@@ -26,7 +26,7 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     if (error.response && error.response.status === 401) {
-      authStore.clearAuthenticationState(true);
+      purge();
       router.push({ name: 'Authentication' });
     }
     return Promise.reject(error);
