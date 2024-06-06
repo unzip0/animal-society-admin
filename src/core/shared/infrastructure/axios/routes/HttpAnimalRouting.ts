@@ -1,15 +1,11 @@
 import axios from '../axios';
 import HttpRoutes from './HttpRoutes';
-import { Animal } from '../../../../management/animals/domain/Animal';
 import { ApiResponse } from '../../response/ApiResponse';
 import { AnimalRaceResponse } from '../../../../management/animalRaces/application/AnimalRaceResponse';
 import { AnimalSpeciesResponse } from '../../../../management/animalSpecies/application/AnimalSpeciesResponse';
+import { AnimalResponse } from '../../../../management/animals/application/AnimalResponse';
 
-/**
- * 
- * @todo implement animal response
- */
-export const getAssociationAnimals = (): Promise<Animal[]> => {
+export const getAssociationAnimals = (): Promise<ApiResponse<AnimalResponse>> => {
     return axios.get(HttpRoutes.animals.getAssociationAnimals);
 }
 
