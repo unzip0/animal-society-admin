@@ -1,10 +1,10 @@
 import { AnimalRepository } from "../../domain/AnimalRepository";
 import { Animal } from "../../domain/Animal";
-import { getAssociationAnimals } from '@infrastructure/axios/routes/HttpAnimalRouting'
+import { getAssociationAnimals } from "../../../../shared/infrastructure/axios/routes/HttpAnimalRouting";
 
 export class AnimalService implements AnimalRepository
 {
-    async getAssociationAnimals(associationId: string): Promise<Animal[]> {
+    async getAssociationAnimals(): Promise<Animal[]> {
         return await getAssociationAnimals()
             .then(function (response) {
                 return response.data.data;
