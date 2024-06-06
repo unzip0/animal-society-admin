@@ -1,1 +1,3 @@
-export interface Response {}
+export interface Response {
+    data: any;
+}

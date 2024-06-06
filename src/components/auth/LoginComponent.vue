@@ -48,6 +48,8 @@
   import { defineComponent } from 'vue';
   import { useAuthStore } from '../../stores/auth/authStore';
   import { useUserStore } from '../../stores/auth/userStore';
+import { LoginResponse } from '../../core/management/users/application/login/LoginResponse';
+import { ApiResponse } from '../../core/shared/infrastructure/response/ApiResponse';
 
   export default defineComponent({
     data: () => ({
@@ -76,7 +78,7 @@
         }
         
         this.loading = true
-        await this.userStore.login(this.email, this.password).then(function (response) {
+        await this.userStore.login(this.email, this.password).then(function (response: ApiResponse<LoginResponse>) {
           _this.userStore.storeUser(response.data.data.user);
           _this.authStore.storeToken(response.data.data.access_token);
           _this.$router.push({ name: 'Home' });
