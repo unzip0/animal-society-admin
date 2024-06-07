@@ -11,6 +11,18 @@
                 <v-toolbar-title>Animals</v-toolbar-title>
                 <v-divider class="mx-4" inset vertical></v-divider>
                 <v-spacer></v-spacer>
+                <v-dialog>
+                    <template v-slot:activator="{ props }">
+                        <v-btn
+                            class="mb-2"
+                            color="primary"
+                            dark
+                            v-bind="props"
+                        >
+                        New animal
+                        </v-btn>
+                    </template>
+                </v-dialog>
             </v-toolbar>
         </template>
         </v-data-table>
@@ -19,11 +31,16 @@
 
 <script lang="ts">
   import { computed, defineComponent, onMounted } from 'vue';
-  import {useAnimalStore} from '@/stores/animal/animalStore';
+  import { useAnimalStore } from '../../stores/animal/animalStore';
+  import { useAnimalRaceStore } from '../../stores/animal/animalRaceStore';
+  import { useAnimalSpeciesStore } from '../../stores/animal/animalSpeciesStore';
 
   export default defineComponent({
     setup() {
         const animalStore = useAnimalStore();
+        const animalRaceStore = useAnimalRaceStore();
+        const animalSpeciesStore = useAnimalSpeciesStore();
+
         const headers: Array<object> = [
             {
                 title: 'Name',
@@ -54,20 +71,35 @@
             }
         ];
 
+        const fetchAnimalSpecies = async () => {
+            await animalSpeciesStore.fetchAnimalSpecies();
+        };
+        const fetchAnimalRaces = async () => {
+            await animalRaceStore.fetchAnimalRaces();
+        };
         const fetchAnimals = async () => {
             await animalStore.fetchAnimals();
         };
+
         onMounted(() => {
+            fetchAnimalSpecies();
+            fetchAnimalRaces();
             fetchAnimals();
         });
 
+        const animalSpecies = computed(() => animalSpeciesStore.animalSpecies);
+        const animalRaces = computed(() => animalRaceStore.animalRaces);
         const animals = computed(() => animalStore.animals);
         const isLoading = computed(() => animalStore.isLoading);
 
         return {
             headers,
+            animalSpecies,
+            animalRaces,
             animals,
             isLoading,
+            fetchAnimalSpecies,
+            fetchAnimalRaces,
             fetchAnimals
         };
     },
