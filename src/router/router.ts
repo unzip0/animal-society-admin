@@ -41,7 +41,7 @@ const routes = [
             {
                 path: '/animals',
                 name: 'Animals',
-                component: () => import('@/pages/dashboard/AnimalPage.vue'),
+                component: () => import('@/pages/dashboard/animals/AnimalPage.vue'),
                 beforeEnter: (to, from, next) => {
                     const authStore = useAuthStore();
                     if (!authStore.authenticated) {
