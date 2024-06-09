@@ -6,15 +6,16 @@ import {AnimalService} from "@/core/management/animals/infrastructure/persistenc
 export const useAnimalStore = defineStore('animal', {
     state: () => ({
         animals: [] as Animal[],
-        isLoading: false,
     }),
     actions: {
         async fetchAnimals() {
-            this.isLoading = true;
             const animalService = new AnimalService();
             const getAssociationAnimals = new GetAssociationAnimals(animalService);
             this.animals = await getAssociationAnimals.execute();
-            this.isLoading = false;
+            
+            return {
+                animals: this.animals,
+            };
         }
     },
 });

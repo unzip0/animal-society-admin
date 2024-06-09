@@ -5,28 +5,29 @@ import { GetAllAnimalSpecies } from "../../core/management/animalSpecies/applica
 
 export const useAnimalSpeciesStore = defineStore('animalSpecies', {
     state: () => ({
-        animalSpecies: [] as AnimalSpecies[],
+        storedAnimalSpecies: localStorage.getItem('animal_species')|| null,
     }),
     actions: {
         async fetchAnimalSpecies() {
             const storedSpecies = localStorage.getItem('animal_species');
             if (storedSpecies) {
                 const parsedData = JSON.parse(storedSpecies);
-                this.animalSpecies = parsedData.animalSpecies;
-                return;
+                this.storedAnimalSpecies = parsedData;
+                return parsedData;
             }
 
             const animalSpeciesService = new AnimalSpeciesService();
             const getAllAnimalSpecies = new GetAllAnimalSpecies(animalSpeciesService);
-            this.animalSpecies = await getAllAnimalSpecies.execute();
-            this.storeSpecies(this.animalSpecies);
+            this.storedAnimalSpecies = await getAllAnimalSpecies.execute();
+            this.storeSpecies(this.storedAnimalSpecies);
+            return this.storedAnimalSpecies
         },
         storeSpecies(species: AnimalSpecies[]) {
-            localStorage.setItem('animal_species', JSON.stringify({ species: species }));
+            localStorage.setItem('animal_species', JSON.stringify(species));
         },
         clearSpecies() {
             localStorage.removeItem('animal_species');
-            this.animalSpecies = [];
+            this.storedAnimalSpecies = null;
         },
         clear() {
             this.$reset();
