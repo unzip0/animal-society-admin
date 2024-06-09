@@ -8,21 +8,22 @@ export const useAnimalRaceStore = defineStore('animalRace', {
         animalRaces: [] as AnimalRace[],
     }),
     actions: {
-        async fetchAnimalRaces() {
+        async fetchAnimalRaces(): Promise<AnimalRace[]> {
             const storedRaces = localStorage.getItem('animal_races');
             if (storedRaces) {
                 const parsedData = JSON.parse(storedRaces);
-                this.animalRaces = parsedData.animalRaces;
-                return;
+                this.animalRaces = parsedData;
+                return this.animalRaces;
             }
 
             const animalRaceService = new AnimalRaceService();
             const getAllAnimalRaces = new GetAllAnimalRaces(animalRaceService);
             this.animalRaces = await getAllAnimalRaces.execute();
             this.storeRaces(this.animalRaces);
+            return this.animalRaces;
         },
         storeRaces(races: AnimalRace[]) {
-            localStorage.setItem('animal_races', JSON.stringify({ races: races }));
+            localStorage.setItem('animal_races', JSON.stringify(races));
         },
         clear() {
             this.$reset();
