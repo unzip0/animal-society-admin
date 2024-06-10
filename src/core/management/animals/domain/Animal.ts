@@ -1,6 +1,6 @@
 export class Animal 
 {
-    constructor(
+    public constructor(
         private id: string,
         private name: string,
         private species_id: string,

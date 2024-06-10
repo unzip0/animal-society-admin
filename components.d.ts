@@ -10,6 +10,8 @@ declare module 'vue' {
     Alert: typeof import('./src/components/shared/Alert.vue')['default']
     AuthenticationPage: typeof import('./src/pages/AuthenticationPage.vue')['default']
     Bar: typeof import('./src/components/dashboard/Bar.vue')['default']
+    CreateAnimal: typeof import('./src/components/dashboard/animals/CreateAnimalComponent.vue')['default']
+    CreateAnimalComponent: typeof import('./src/components/dashboard/animals/CreateAnimalComponent.vue')['default']
     Drawer: typeof import('./src/components/dashboard/Drawer.vue')['default']
     LoginComponent: typeof import('./src/components/auth/LoginComponent.vue')['default']
     ProfileComponent: typeof import('./src/components/dashboard/profile/ProfileComponent.vue')['default']
