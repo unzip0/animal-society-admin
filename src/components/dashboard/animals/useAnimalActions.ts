@@ -2,6 +2,7 @@
 import { Animal } from "../../../core/management/animals/domain/Animal";
 import { v4 as uuidv4 } from 'uuid';
 import { AnimalService } from "../../../core/management/animals/infrastructure/persistence/AnimalService";
+import { AnimalRace } from "../../../core/management/animalRaces/domain/AnimalRace";
 
 export async function createAnimal(animalData: object, uploadedFile: File|null, loading) {
     const animal: Animal = new Animal(
@@ -19,4 +20,13 @@ export async function createAnimal(animalData: object, uploadedFile: File|null, 
     loading.value = false;
 
     return createdAnimalResponse;
+}
+
+export function filterRacesBySpecies(species_id: string|null, races: []): AnimalRace[] {
+    if (!species_id) {
+        return races;
+    }
+
+    const filteredRaces = races.filter(race => race['species_id'] === species_id);
+    return filteredRaces;
 }
