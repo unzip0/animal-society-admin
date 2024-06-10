@@ -48,12 +48,13 @@
                                     item-value="id"
                                     v-model="animal.species_id"
                                     :rules="[required]"
+                                    @update:modelValue="onSpeciesChange"
                                     />
                                 </v-col>
                                 <v-col>
                                     <v-select
                                         label="Races"
-                                        :items="races"
+                                        :items="filteredRaces"
                                         item-title="name"
                                         item-value="id"
                                         v-model="animal.race_id"
@@ -106,7 +107,7 @@
 </template>
 <script lang="ts">
     import { ref, defineComponent } from 'vue';
-    import { createAnimal } from './useAnimalActions';
+    import { createAnimal, filterRacesBySpecies } from './useAnimalActions';
     import { AnimalSpecies } from '../../../core/management/animalSpecies/domain/AnimalSpecies';
     import { AnimalRace } from '../../../core/management/animalRaces/domain/AnimalRace';
     import { showAlert } from '../../../core/shared/domain/alert/alertHelper';
@@ -116,15 +117,15 @@
     name: 'CreateAnimalComponent',
     props: {
       species: {
-        type: Array as () => AnimalSpecies[],
+        type: Array,
         required: true
       },
       races: {
-        type: Array as () => AnimalRace[],
+        type: Array,
         required: true
       }
     },
-    setup() {
+    setup(props) {
         const isLoading = ref(false);
         const form = ref(null);
         const alertStore = useAlertStore();
@@ -135,6 +136,7 @@
             species_id: null,
             race_id: null,
         });
+        const filteredRaces = ref(props.races);
         const fileInput = ref<HTMLInputElement | null>(null);
         const file = ref<File|null>(null);
         
@@ -155,6 +157,11 @@
             if (fileInput.value && fileInput.value.files && fileInput.value.files.length > 0) {
                 file.value = fileInput.value.files[0];
             }
+        }
+
+        function onSpeciesChange(value: string|null) {
+            console.log(value);
+            filteredRaces.value = filterRacesBySpecies(value, props.races as []);
         }
         async function handleCreateAnimal() {
             const {valid} = await form.value?.validate();
@@ -194,6 +201,8 @@
             onFileChange,
             dialog,
             isLoading,
+            onSpeciesChange,
+            filteredRaces,
         };
     },
   });
