@@ -1,6 +1,7 @@
 import { AnimalRepository } from "../../domain/AnimalRepository";
 import { Animal } from "../../domain/Animal";
-import { getAssociationAnimals } from "../../../../shared/infrastructure/axios/routes/HttpAnimalRouting";
+import { getAssociationAnimals, createAnimal } from "../../../../shared/infrastructure/axios/routes/HttpAnimalRouting";
+import { ApiResponse } from "../../../../shared/infrastructure/response/ApiResponse";
 
 export class AnimalService implements AnimalRepository
 {
@@ -14,7 +15,7 @@ export class AnimalService implements AnimalRepository
             });
     }
 
-    async createAnimal(animal: Animal): Promise<void> {
-        return;
+    async createAnimal(animal: Animal, file: File): Promise<ApiResponse> {
+        return await createAnimal(animal, file);
     }
 }

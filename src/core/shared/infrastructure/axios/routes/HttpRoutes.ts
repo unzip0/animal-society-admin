@@ -13,6 +13,7 @@ const httpRoutes = {
     getAssociationAnimals: `${API_BASE_URL}/animals/search/all`,
     getAllAnimalRaces: `${API_BASE_URL}/animals/races/all`,
     getAllAnimalSpecies: `${API_BASE_URL}/animals/species/all`,
+    createAnimal: `${API_BASE_URL}/animals/create`,
   }
 };
 
