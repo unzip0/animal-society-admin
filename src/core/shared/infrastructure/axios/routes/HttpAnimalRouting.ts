@@ -39,3 +39,7 @@ export const createAnimal = (animal: Animal, file: File): Promise<ApiResponse> =
         }
     });
 }
+
+export const deleteAnimal = (id: string): Promise<ApiResponse> => {
+    return axios.delete(HttpRoutes.animals.deleteAnimal(id));
+}

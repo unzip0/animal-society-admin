@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import {Animal} from "@/core/management/animals/domain/Animal";
 import { GetAssociationAnimals } from "@/core/management/animals/application/getAll/GetAssociationAnimals";
 import {AnimalService} from "@/core/management/animals/infrastructure/persistence/AnimalService";
+import { DeleteAnimal } from "../../core/management/animals/application/delete/DeleteAnimal";
 
 export const useAnimalStore = defineStore('animal', {
     state: () => ({
@@ -16,6 +17,11 @@ export const useAnimalStore = defineStore('animal', {
             return {
                 animals: this.animals,
             };
+        },
+        async deleteAnimal(id: string) {
+            const animalService = new AnimalService();
+            const deleteAnimal = new DeleteAnimal(animalService);
+            return await deleteAnimal.execute(id);
         }
     },
 });
