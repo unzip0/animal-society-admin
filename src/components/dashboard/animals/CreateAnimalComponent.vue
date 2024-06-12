@@ -108,8 +108,6 @@
 <script lang="ts">
     import { ref, defineComponent } from 'vue';
     import { createAnimal, filterRacesBySpecies } from './useAnimalActions';
-    import { AnimalSpecies } from '../../../core/management/animalSpecies/domain/AnimalSpecies';
-    import { AnimalRace } from '../../../core/management/animalRaces/domain/AnimalRace';
     import { showAlert } from '../../../core/shared/domain/alert/alertHelper';
     import { useAlertStore } from '../../../stores/shared/alertStore';
 
@@ -160,7 +158,6 @@
         }
 
         function onSpeciesChange(value: string|null) {
-            console.log(value);
             filteredRaces.value = filterRacesBySpecies(value, props.races as []);
         }
         async function handleCreateAnimal() {
@@ -173,6 +170,7 @@
             }
 
             createAnimal(animal.value, file.value, isLoading).then(() => {
+                close();
                 showAlert(
                     'Create success',
                     'Animal have been created',
