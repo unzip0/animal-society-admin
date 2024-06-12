@@ -14,6 +14,7 @@ const httpRoutes = {
     getAllAnimalRaces: `${API_BASE_URL}/animals/races/all`,
     getAllAnimalSpecies: `${API_BASE_URL}/animals/species/all`,
     createAnimal: `${API_BASE_URL}/animals/create`,
+    deleteAnimal: (id: string) => `${API_BASE_URL}/animals/${id}`,
   }
 };
 

@@ -5,4 +5,5 @@ export interface AnimalRepository
 {
     createAnimal(animal: Animal, file: File): Promise<ApiResponse>;
     getAssociationAnimals(): Promise<Animal[]>;
+    deleteAnimal(id: string): Promise<ApiResponse>;
 }
